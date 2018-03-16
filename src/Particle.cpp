@@ -6,19 +6,15 @@
  */
 
 #include "Particle.h"
+#include <math.h>
 
 
 
-void Particle::moveParticle(){
-  xPos += xVel;
-  yPos += yVel;
+void Particle::moveParticle(double angle){
+  xPos = 320+(100*angle)*sin(angle);
+  yPos = 240+100*cos(angle);
 
-  if (xPos > 640){
-	  	xPos = 0;
-  };
-
-  if (yPos > 480){
-  	  	yPos = 0;
-    };
 }
+
+
 

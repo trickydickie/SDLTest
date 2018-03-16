@@ -17,12 +17,6 @@ const int HEIGHT = 480;
 
 using namespace std;
 
-int rows(int r){
-	return WIDTH*4*(r) ;
-}
-int columns(int c){
-	return (4*(c)) ;
-}
 
 int main(){
 
@@ -39,44 +33,56 @@ int main(){
 
 	SDL_Texture *tex = SDL_CreateTexture(ren,SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH,HEIGHT);
 	bool quit = false;
-	SDL_Event event;
+
 
 	vector< unsigned char > pixels(WIDTH*HEIGHT*4,0);
-	const unsigned char setPixel[4]={255,255,255,255};
+	//const unsigned char setPixel[4]={255,255,255,255};
 
 	 //one way to set a group
 
-	/*const unsigned int x = rand() % texWidth;
-            const unsigned int y = rand() % texHeight;
 
-            const unsigned int offset = ( texWidth * 4 * y ) + x * 4;
-            pixels[ offset + 0 ] = rand() % 256;        // b
-            pixels[ offset + 1 ] = rand() % 256;        // g
-            pixels[ offset + 2 ] = rand() % 256;        // r
-            pixels[ offset + 3 ] = SDL_ALPHA_OPAQUE;    // a                 another way to set a group*/
+
+
+   unsigned int offset=0;
+   unsigned int newoffset=0;
 
 	Particle particle;
+	double angle = 0;
+
 	while (!quit)
 	    {
+		angle += 0.01;
 
-		particle.moveParticle();
+		particle.moveParticle(angle);
 
-		std::copy(setPixel,setPixel+4,&pixels[rows(particle.y())+columns(particle.x())]);
+		offset = newoffset;
+		newoffset= ( WIDTH * 4 * particle.y() ) + particle.x() * 4;
+		            pixels[ newoffset + 0 ] = rand()%255;        // b
+		            pixels[ newoffset + 1 ] = rand()%255;       // g
+		            pixels[ newoffset + 2 ] = rand()%255;       // r
+		            pixels[ newoffset + 3 ] = rand()%255;    // a
+		            //pixels[ offset + 0 ] = 0 ;      // b
+		            //pixels[ offset + 1 ] = 0 ;       // g
+		            //pixels[ offset + 2 ] = 0 ;      // r
+		            //pixels[ offset + 3 ] = 0;
+
+
 
 		SDL_UpdateTexture(tex,NULL,&pixels[0],640*sizeof(Uint32));
-
-	        SDL_WaitEvent(&event);
+		SDL_Delay(10);
+		//the SDL_WaitEvent was lagging the whole thing down horribly
+	       /* SDL_WaitEvent(&event);
 	        switch (event.type)
 	        {
 	            case SDL_QUIT:
 	                quit = true;
 	                break;
-	        }
+	        }*/
 
 	        SDL_RenderClear(ren);
 	        SDL_RenderCopy(ren,tex,NULL,NULL);
 	        SDL_RenderPresent(ren);
-	        SDL_Delay(50);
+
 	    }
 
 

@@ -8,6 +8,7 @@
 #ifndef PARTICLE_H_
 #define PARTICLE_H_
 
+
 class Particle {
 private:
 	int xPos;
@@ -15,8 +16,8 @@ private:
 	int xVel;
 	int yVel;
 public:
-	Particle():xPos(0),yPos(0),xVel(35),yVel(35){};
-	void moveParticle();
+	Particle():xPos(0),yPos(100),xVel(35),yVel(35){};
+	void moveParticle(double angle);
 	int y(){return yPos;};
 	int x(){return xPos;};
 };
