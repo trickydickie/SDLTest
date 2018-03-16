@@ -72,7 +72,7 @@ int main(){
 	    }
 
 
-
+//testing
 	SDL_DestroyTexture(tex);
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
