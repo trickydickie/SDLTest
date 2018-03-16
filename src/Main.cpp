@@ -10,6 +10,7 @@
 #include <string>
 #include <SDL.h>
 #include <vector>
+#include "Particle.h"
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -17,10 +18,10 @@ const int HEIGHT = 480;
 using namespace std;
 
 int rows(int r){
-	return WIDTH*4*(r-1) ;
+	return WIDTH*4*(r) ;
 }
 int columns(int c){
-	return (4*(c-1)) ;
+	return (4*(c)) ;
 }
 
 int main(){
@@ -41,9 +42,9 @@ int main(){
 	SDL_Event event;
 
 	vector< unsigned char > pixels(WIDTH*HEIGHT*4,0);
-	unsigned char setPixel[4]={255,255,255,255};
+	const unsigned char setPixel[4]={255,255,255,255};
 
-	std::copy(setPixel,setPixel+4,&pixels[rows(240)+columns(320)]); //one way to set a group
+	 //one way to set a group
 
 	/*const unsigned int x = rand() % texWidth;
             const unsigned int y = rand() % texHeight;
@@ -54,8 +55,14 @@ int main(){
             pixels[ offset + 2 ] = rand() % 256;        // r
             pixels[ offset + 3 ] = SDL_ALPHA_OPAQUE;    // a                 another way to set a group*/
 
+	Particle particle;
 	while (!quit)
 	    {
+
+		particle.moveParticle();
+
+		std::copy(setPixel,setPixel+4,&pixels[rows(particle.y())+columns(particle.x())]);
+
 		SDL_UpdateTexture(tex,NULL,&pixels[0],640*sizeof(Uint32));
 
 	        SDL_WaitEvent(&event);
@@ -69,6 +76,7 @@ int main(){
 	        SDL_RenderClear(ren);
 	        SDL_RenderCopy(ren,tex,NULL,NULL);
 	        SDL_RenderPresent(ren);
+	        SDL_Delay(50);
 	    }
 
 
